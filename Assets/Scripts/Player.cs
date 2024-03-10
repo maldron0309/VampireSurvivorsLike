@@ -3,12 +3,17 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Vector2 InputVec;
+    [SerializeField] private Vector2 inputVec;
     [SerializeField] private float speed;
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Animator anim;
+
+    public Vector2 InputVec
+    {
+        get { return inputVec; }
+    }
 
     private void Awake()
     {
@@ -19,13 +24,13 @@ public class Player : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
-        InputVec = value.Get<Vector2>();
+        inputVec = value.Get<Vector2>();
     }
 
 
     private void FixedUpdate()
     {
-        Vector2 nextVec = InputVec * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + nextVec);
     }
 
@@ -35,10 +40,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
-        anim.SetFloat("Speed", InputVec.magnitude);
-        if (InputVec.x != 0)
+        anim.SetFloat("Speed", inputVec.magnitude);
+        if (inputVec.x != 0)
         {
-            spriteRenderer.flipX = InputVec.x < 0;
+            spriteRenderer.flipX = inputVec.x < 0;
         }
     }
 }
